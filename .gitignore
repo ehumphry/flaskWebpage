@@ -1,0 +1,8 @@
+config.py
+*.pyc
+*.json
+config.py
+.idea/inspectionProfiles/profiles_settings.xml
+*.xml
+*.iml
+config.py
