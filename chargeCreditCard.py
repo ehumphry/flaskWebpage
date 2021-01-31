@@ -31,9 +31,12 @@ def chargeCard():
     response = createtransactioncontroller.getresponse()
  
     if (response.messages.resultCode=="Ok"):
+        message = "Transaction ID : %s"% response.transactionResponse.transId
         print("Transaction ID : %s"% response.transactionResponse.transId)
     else:
+        message = response.messages.resultCode
         print("response code: %s"% response.messages.resultCode)
+    return message
  
 
 

@@ -24,8 +24,8 @@ def index():
 
 @app.route("/newCharge") 
 def newCharge():
-    chargeCard()
-    return render_template("newCharge.html")
+    message = chargeCard()
+    return render_template("newCharge.html", message = message)
 
 
 
