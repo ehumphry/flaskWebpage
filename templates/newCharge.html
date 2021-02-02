@@ -36,11 +36,23 @@
             </nav>
         </div>
         <!-- endNavbar -->
+
+        {% if message %}
+
+        <h2 class="text-center">{{message}}</h2>
+    
+        {% endif %}
+
+        {% if message2 %}
+
+        <h2 class="text-center">{{message2}}</h2>
+    
+        {% endif %}
        
 
     <div class="row justify-content-center">
         <div class="card" style="width: 24rem;">
-            <form  action= "http://localhost:5000/createUser" method = 'post'> <!-- Will need to change this  -->
+            <form  action= "http://localhost:5000/newCharge" method = 'post'> <!-- Will need to change this  -->
 
                 <h2 class="text-center">Create New Charge</h2>
 
@@ -51,19 +63,15 @@
                 </div> 
 
                 <div class="form-group">
-                    <input type="text" name ="cardNumber" class="form-control" placeholder="Expiration Date" required>
+                    <input type="text" name ="expirationDate" class="form-control" placeholder="Expiration Date" required>
                 </div> 
 
                 <div class="form-group">
-                    <input type="text" name ="cardNumber" class="form-control" placeholder="Amount" required>
+                    <input type="text" name ="amount" class="form-control" placeholder="Amount" required>
                 </div>  
 
                 <h5 class="text-center">Customer Billing Information</h5>   
 
-
-                <div class="form-group">
-                    <input type="text" name = "customerId" class="form-control" placeholder="Customer ID" required>
-                </div>
 
                   <div class="form-group">
                     <input type="text" name = "firstName" class="form-control" placeholder="First Name" required>
@@ -74,11 +82,11 @@
                 </div> 
 
                 <div class="form-group">
-                    <input type="text" name ="company" class="form-control" placeholder="Company" required>
+                    <input type="text" name ="company" class="form-control" placeholder="Company" >
                 </div> 
 
                 <div class="form-group">
-                    <input type="text" name ="addrss" class="form-control" placeholder="Address" required>
+                    <input type="text" name ="address" class="form-control" placeholder="Address" required>
                 </div> 
 
                 <div class="form-group">
@@ -121,15 +129,14 @@
                 <div class="form-group">
                     <button type="submit" onclick = "validatePassword()" class="btn btn-primary btn-block">Submit Charge</button>
                     <button type="reset" onclick = "validatePassword()" class="btn btn-secondary btn-block">Reset</button>
-                </div> 
-                 
-                    
+                </div>     
             </form>
         </div>
     </div>
+    
    	
      
-   </div>  
+   
    
       <!-- JS files: jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
