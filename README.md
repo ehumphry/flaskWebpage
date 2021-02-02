@@ -1,4 +1,4 @@
-# flaskWebpage
+# Transaction Webpage
 This application uses the Authorize.net api to perform credit card transactions and create a customer profile.  
 Customer billng information and customerId and transactionId are stored in a mysql database.  
 
