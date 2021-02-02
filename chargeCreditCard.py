@@ -1,11 +1,18 @@
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import*
 from decimal import*
+import json
 
-def chargeCard():
-    merchantAuth = apicontractsv1.merchantAuthenticationType()
-    merchantAuth.name ='4urP8Y47'
-    merchantAuth.transactionKey ='538g4Tg2uMBte3W8'
+
+    
+
+# create and save customer then charge it
+def chargeCard(customerInfo): #takes a dictionary that has customer info
+
+   
+    merchantAuth = apicontractsv1.merchantAuthenticationType() #required
+    merchantAuth.name ='4urP8Y47' #required
+    merchantAuth.transactionKey ='538g4Tg2uMBte3W8' #required
  
     creditCard = apicontractsv1.creditCardType()
     creditCard.cardNumber ="6011000000000012"
@@ -13,11 +20,23 @@ def chargeCard():
  
     payment = apicontractsv1.paymentType()
     payment.creditCard = creditCard
- 
+
+    customerAddress = apicontractsv1.customerAddressType()
+    customerAddress.firstName = customerInfo["firstName"]
+    customerAddress.lastName = customerInfo["lastName"]
+    customerAddress.company = customerInfo["company"]
+    customerAddress.address = customerInfo["address"]
+    customerAddress.city = customerInfo["city"]
+    customerAddress.state = customerInfo["state"]
+    customerAddress.zip = customerInfo["zipCode"]
+    customerAddress.phoneNumber = customerInfo["phone"]
+    customerAddress.email = customerInfo["email"]
+    
     transactionrequest = apicontractsv1.transactionRequestType()
     transactionrequest.transactionType ="authCaptureTransaction"
-    transactionrequest.amount = Decimal ('1.55')
+    transactionrequest.amount = Decimal (customerInfo["amount"]) #required
     transactionrequest.payment = payment
+    transactionrequest.billTo = customerAddress
  
  
     createtransactionrequest = apicontractsv1.createTransactionRequest()
@@ -29,14 +48,28 @@ def chargeCard():
     createtransactioncontroller.execute()
  
     response = createtransactioncontroller.getresponse()
- 
+    
     if (response.messages.resultCode=="Ok"):
-        message = "Transaction ID : %s"% response.transactionResponse.transId
+        error = False
+
+        # customer_profile = save_customer(response)
+
+        # charge_response = charge_profile(customer_profile)
+        message = ("Transaction ID : %s"% response.transactionResponse.transId)
         print("Transaction ID : %s"% response.transactionResponse.transId)
     else:
+        
         message = response.messages.resultCode
         print("response code: %s"% response.messages.resultCode)
     return message
  
 
 
+# def save_customer():
+
+#     #save customer
+
+
+# def charge_profile(customer_profile):
+
+#     # create request to charge profile
