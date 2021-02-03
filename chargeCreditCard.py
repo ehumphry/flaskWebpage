@@ -6,7 +6,7 @@ import json
 
     
 
-# create and save customer then charge it
+
 def chargeCard(customerInfo): #takes a dictionary that has customer info
 
    
@@ -52,16 +52,13 @@ def chargeCard(customerInfo): #takes a dictionary that has customer info
     if (response.messages.resultCode=="Ok"):
         error = False
 
-        # customer_profile = save_customer(response)
-
-        # charge_response = charge_profile(customer_profile)
         message = ("Transaction ID : %s"% response.transactionResponse.transId)
         print("Transaction ID : %s"% response.transactionResponse.transId)
     else:
         
         message = response.messages.resultCode
         print("response code: %s"% response.messages.resultCode)
-    return message
+    return response.transactionResponse.transId, message
  
 
 
