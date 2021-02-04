@@ -22,45 +22,53 @@ app.secret_key = config.secretKey
 
 @app.route("/") #manage customers page
 def index():
+    customerTable = " "
+    #call function to query customerProfiles table, returns boolean and a list
+    #use templates to print off entries with buttons
+
+
     return render_template("index.html")
 
 @app.route("/newCharge", methods=['POST', 'GET']) 
 def newCharge():
     message = " "
     message2 = " "
+    customerInfo = {
+        "description": " "
+    }
     if request.method == 'POST':
         try:
-            cardNumber = request.form['cardNumber']
-            print(cardNumber)
-            expirationDate = request.form['expirationDate']
-            print(expirationDate)
-            amount = request.form['amount']
-            print(amount)
-            firstName = request.form['firstName']
-            print(firstName)
-            lastName = request.form['lastName']
-            print(lastName)
-            company = request.form['company']
-            print(company)
-            address = request.form['address']
-            print(address)
-            city = request.form['city']
-            print(city)
-            state = request.form['state']
-            print(state)
-            zipCode = request.form['zipCode']
-            print(zipCode)
-            phone = request.form['phone']
-            print(phone)
-            email = request.form['email']
-            print(email)
+            customerInfo["cardNumber"] = request.form['cardNumber']
+            
+            customerInfo["expirationDate"] = request.form['expirationDate']
+            
+            customerInfo["amount"] = request.form['amount']
+            
+            customerInfo["firstName"]  = request.form['firstName']
+            
+            customerInfo["lastName"] = request.form['lastName']
+            
+            customerInfo["company"] = request.form['company']
+           
+            customerInfo["address"] = request.form['address']
+            
+            customerInfo["city"] = request.form['city']
+            
+            customerInfo["state"]= request.form['state']
+            
+            customerInfo["zipCode"] = request.form['zipCode']
+           
+            customerInfo["phone"] = request.form['phone']
+            
+            customerInfo["email"] = request.form['email']
+           
             #if there is time, add description field for customer profile, for now it is set for No Description in createCustomer.py line 25
 
 
-            customerInfo = {
-                "cardNumber": cardNumber,"exirationDAte": expirationDate, "amount": amount, "firstName": firstName, "lastName": lastName, "company": company, "address": address, "city": city, "state": state, "zipCode": zipCode, "phone": phone, "email": email
-                }
-            
+            # customerInfo = {
+            #     "cardNumber": cardNumber,"exirationDAte": expirationDate, "amount": amount, "firstName": firstName, "lastName": lastName, "company": company, "address": address, "city": city, "state": state, "zipCode": zipCode, "phone": phone, "email": email
+            #     }
+            #if there is time, assign form information directly to the dictionary
             transactionId, message = chargeCard(customerInfo) #calls chargeCard API and returns transactionId
             customerId, message2 = createCustomerProfile(customerInfo) #calls createCustomerProfile API and returns customer profileId
             customerInfo["transactionId"] = transactionId # append new info to the customerInfo dictionary
