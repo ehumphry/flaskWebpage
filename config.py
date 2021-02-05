@@ -1,0 +1,5 @@
+host= 'localhost'
+user = 'echumphry'
+password='userpass'
+database = 'Humphry'
+secretKey = 'GDtfDCFYjD'
