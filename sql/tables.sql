@@ -12,6 +12,7 @@ CREATE TABLE customerProfiles (
     phone varchar(25),
     email varchar(25),
     customerId varchar (25),
+    customerPaymentProfileId varchar (25),
     PRIMARY KEY (customerId)
 );
 
