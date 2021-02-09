@@ -4,6 +4,7 @@ from chargeCreditCard import chargeCard
 from createCustomerProfile import createCustomerProfile
 from storeCustomerInformation import storeCustomerInformation
 from deleteCustomerProfile import deleteCustomerProfile
+from createCustomerPaymentProfile import createCustomerPaymentProfile
 import config
 
 
@@ -93,17 +94,13 @@ def notification():
             
             customerInfo["email"] = request.form['email']
            
-            #if there is time, add description field for customer profile, for now it is set for No Description in createCustomer.py line 25
 
 
-            # customerInfo = {
-            #     "cardNumber": cardNumber,"exirationDAte": expirationDate, "amount": amount, "firstName": firstName, "lastName": lastName, "company": company, "address": address, "city": city, "state": state, "zipCode": zipCode, "phone": phone, "email": email
-            #     }
-            #if there is time, assign form information directly to the dictionary
             transactionId, message = chargeCard(customerInfo) #calls chargeCard API and returns transactionId
             customerId, message2 = createCustomerProfile(customerInfo) #calls createCustomerProfile API and returns customer profileId
             customerInfo["transactionId"] = transactionId # append new info to the customerInfo dictionary
             customerInfo["customerId"] = customerId # append new info to the customerInfo dictionary
+            customerInfo["customerPaymentProfileId"] = createCustomerPaymentProfile(customerInfo) #get customerPaymentProfileId for future charges
             print(customerInfo["transactionId"])
             print(customerInfo["customerId"])
              
@@ -117,7 +114,7 @@ def notification():
 
     return render_template("notification.html", message = message, message2 = message2)
 
-@app.route('/deleteProfile', methods=['GEt','POST'])
+@app.route('/deleteProfile', methods=['GET','POST'])
 def deleteProfile():
     message = " "
     message2 = " "
@@ -151,6 +148,15 @@ def deleteProfile():
             message2 = "Select a valid customer"
 
     return render_template("notification.html", message = message, message2 = message2)
+
+
+@app.route('/chargeProfile', methods=['GET','POST'])
+def chargeProfile():
+    message = " "
+    message2 = " "
+
+    return render_template("notification.html", message = message, message2 = message2)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

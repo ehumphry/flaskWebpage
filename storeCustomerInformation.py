@@ -7,13 +7,13 @@ def storeCustomerInformation(customerInfo, mysql):
     try:
        
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO customerProfiles (firstName, lastName, address, city, state, zipCode, phone, email, customerId) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)", (customerInfo["firstName"], customerInfo["lastName"],customerInfo["address"],customerInfo["city"],customerInfo["state"],customerInfo["zipCode"], customerInfo["phone"],customerInfo["email"],customerInfo["customerId"]))
+        cursor.execute("INSERT INTO customerProfiles (firstName, lastName, address, city, state, zipCode, phone, email, customerId, customerPaymentProfileId) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (customerInfo["firstName"], customerInfo["lastName"],customerInfo["address"],customerInfo["city"],customerInfo["state"],customerInfo["zipCode"], customerInfo["phone"],customerInfo["email"],customerInfo["customerId"], customerInfo["customerPaymentProfileId"]))
         cursor.execute("INSERT INTO transactions (customerId, transactionId) VALUES ( %s, %s)", (customerInfo["customerId"], customerInfo["transactionId"]))
         mysql.connection.commit()
 
         cursor.close()
 
-        print("Information Stored Successfully")
+        print("Information Stored Successfully to mysql database")
     except:
         print("Failed to insert recored into table")
 
