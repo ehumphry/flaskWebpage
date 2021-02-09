@@ -22,7 +22,7 @@ def createCustomerProfile(customerInfo):
     response = controller.getresponse()
     
     if (response.messages.resultCode=="Ok"):
-        message2 = ("Successfully created a customer profile for %s %s Description: %s ID: %s" % (customerInfo["firstName"],customerInfo["lastName"] , customerInfo["description"], response.customerProfileId))
+        message2 = ("Successfully created a customer profile for %s %s " % (customerInfo["firstName"],customerInfo["lastName"]))
         print("Successfully created customer profile with id: %s" % response.customerProfileId)
     else:
         message2 = ("Failed to create customer payment profile %s" % response.messages.message[0]['text'].text)

@@ -113,27 +113,42 @@ def notification():
         except:
             message = ("Error Collecting Form")
 
+            
+
     return render_template("notification.html", message = message, message2 = message2)
 
-@app.route('/deleteProfile', methods=['POST', 'GET']) # need to set route in index.html on button
-def deleteProfile(): 
-    message = "Were not doing anything yet. "
-    message2 = "The functions don't work properly"
-    # customerId = request.form.get("customerId", True)
-    # message = deleteCustomerProfile(customerId)
-    # # message2 = deleteCustomerProfileFromDb(customerId, mysql)
-    # try:
-    #     message = " "
-    #     cursor = mysql.connection.cursor()
-    #     # change this // query = "SELECT firstName AS first, lastName AS last, customerId AS id FROM customerProfiles;"
-    #     query = ("DELETE FROM customerProfiles WHERE customerId = %s", (customerId))
-    #     cursor.execute(query)
-    #     cursor.close()
-    #     message = ("Customer "+ customerId + " has been deleted")
-       
-    # except:
-    #     print("We have a problem, may need to cascade")
+@app.route('/deleteProfile', methods=['GEt','POST'])
+def deleteProfile():
+    message = " "
+    message2 = " "
+    if request.method == 'POST':
+        try: 
+            message = "Were not doing anything yet. "
+            message2 = "The functions don't work properly"
+            customerId = request.form.get("customerId")
+            print(customerId)
+            message = deleteCustomerProfile(customerId)
+
+
+        except:
+            message = "Error Collecting Customer ID"
+            
+        
+        try:
+            cursor = mysql.connection.cursor() 
+            query1 = ("DELETE FROM transactions WHERE customerId = "+ customerId+";")
+            query2 = ("DELETE FROM customerProfiles WHERE customerId = "+ customerId+";")
+            cursor.execute(query1)
+            cursor.execute(query2)
+            mysql.connection.commit()
+            cursor.close()
+            message2 = ("Customer "+ customerId + " has been deleted from local database")
     
+
+       
+        except:
+            message = " "
+            message2 = "Select a valid customer"
 
     return render_template("notification.html", message = message, message2 = message2)
 
