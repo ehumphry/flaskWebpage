@@ -5,6 +5,8 @@ from createCustomerProfile import createCustomerProfile
 from storeCustomerInformation import storeCustomerInformation
 from deleteCustomerProfile import deleteCustomerProfile
 from createCustomerPaymentProfile import createCustomerPaymentProfile
+from getCustomerPaymentProfileId import getCustomerPaymentProfileId
+from chargeCustomerProfile import chargeCustomerProfile
 import config
 
 
@@ -63,7 +65,7 @@ def newCharge():
 def notification():
     message = " "
     message2 = " "
-    customerInfo = {
+    customerInfo = {  
         "description": " "
     }
     if request.method == 'POST':
@@ -101,9 +103,8 @@ def notification():
             customerInfo["transactionId"] = transactionId # append new info to the customerInfo dictionary
             customerInfo["customerId"] = customerId # append new info to the customerInfo dictionary
             customerInfo["customerPaymentProfileId"] = createCustomerPaymentProfile(customerInfo) #get customerPaymentProfileId for future charges
-            print(customerInfo["transactionId"])
-            print(customerInfo["customerId"])
-             
+            # print("Transaction ID" + customerInfo["transactionId"])
+            # print("Customer Profile ID" + customerInfo["customerId"])           
             storeCustomerInformation(customerInfo, mysql) #send dictionary and sql connection to storeCustomerInformation function
 
                   
@@ -152,11 +153,22 @@ def deleteProfile():
 
 @app.route('/chargeProfile', methods=['GET','POST'])
 def chargeProfile():
-    message = " "
-    message2 = " "
-
+    message = " Made it to "
+    message2 = "Charge Profile "
+    if request.method == 'POST':
+        try: 
+            message = " "
+            message2 = " "
+            customerId = request.form.get("customerId")
+            amount = request.form.get("amountToBeCharged")
+            paymentProfileId = getCustomerPaymentProfileId(customerId, mysql)
+            message, message2 = chargeCustomerProfile(customerId, paymentProfileId, amount)
+            
+        except:
+            message = "There was an error charging the payment profile"
+            message2 =" "
+            
     return render_template("notification.html", message = message, message2 = message2)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

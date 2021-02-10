@@ -15,8 +15,8 @@ def chargeCard(customerInfo): #takes a dictionary that has customer info
     merchantAuth.transactionKey ='538g4Tg2uMBte3W8' #required
  
     creditCard = apicontractsv1.creditCardType()
-    creditCard.cardNumber ="6011000000000012"
-    creditCard.expirationDate ="2021-12"
+    creditCard.cardNumber ="6011000000000012" # this stays this way for testing purposes.
+    creditCard.expirationDate ="2021-12" # date only needs to be later than current date.
  
     payment = apicontractsv1.paymentType()
     payment.creditCard = creditCard
